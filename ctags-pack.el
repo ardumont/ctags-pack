@@ -27,14 +27,14 @@
 Make .tags the default tag file location.
 You probably want to add .tags to a .gitignore_global file."
   (interactive)
-  (let* ((top-dir (magit-get-top-dir))
-         (home-dir (expand-file-name "~/"))
+  (let* ((top-dir   (magit-get-top-dir))
+         (home-dir  (expand-file-name "~/"))
          (tags-file (format "%sTAGS" top-dir)))
     (when (and top-dir
                (not (string-equal top-dir home-dir)))
       (setq-local tags-table-list (list tags-file))
-      (ctags-pack/msg "Project tags file set to: %s" tags-file)
-      (generate-project-tags-if-missing))))
+      (ctags-pack/msg (format "Project tags file set to: %s" tags-file))
+      (ctags-pack/generate-project-tags-if-missing))))
 
 (defun ctags-pack/generate-project-tags (tags-file)
   "Generate tags for current project in `TAGS-FILE`."
@@ -56,28 +56,28 @@ You probably want to add .tags to a .gitignore_global file."
   "If `tags-table-list` is set and no project tags file exists, generate it."
   (interactive)
   (when tags-table-list
-    (let* ((tags-file (get-project-tags-file-name)))
+    (let* ((tags-file (ctags-pack/get-project-tags-file-name)))
       (when (and tags-file (not (file-exists-p tags-file)))
-        (generate-project-tags tags-file)
-        (ctags-pack/msg "Generated new project tags in %s" tags-file)))))
+        (ctags-pack/generate-project-tags tags-file)
+        (ctags-pack/msg (format "Generated new project tags in %s" tags-file))))))
 
 (defun ctags-pack/regenerate-project-tags ()
   "If `tags-file-name` is set, regenerate the tags file."
   (interactive)
-  (let* ((tags-file-name (get-project-tags-file-name)))
+  (let* ((tags-file-name (ctags-pack/get-project-tags-file-name)))
     (when tags-file-name
-      (generate-project-tags tags-file-name)
-      (ctags-pack/msg "Regenerated project tags in %s" tags-file-name))))
+      (ctags-pack/generate-project-tags tags-file-name)
+      (ctags-pack/msg (format "Regenerated project tags in %s" tags-file-name)))))
 
 ;; When a new file is found in a git repo, set the project tags filename.
-(remove-hook 'find-file-hook 'ctags-pack/set-project-tags-file-name)
+(add-hook 'find-file-hook 'ctags-pack/set-project-tags-file-name)
 
 ;; When a new file is found in a git repo, generate the project tags file if it
 ;; doesn't exist.
 ;;(add-hook 'find-file-hook 'ctags-pack/generate-project-tags-if-missing)
 
 ;; When a file is saved, (potentially) regenerate the tags file.
-(remove-hook 'after-save-hook 'ctags-pack/regenerate-project-tags)
+(add-hook 'after-save-hook 'ctags-pack/regenerate-project-tags)
 
 ;; If the tags file is rewritten, pick up the changes without prompting.
 (setq tags-revert-without-query t)
