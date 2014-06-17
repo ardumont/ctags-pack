@@ -83,4 +83,6 @@ You probably want to add .tags to a .gitignore_global file."
 
 ;; Use etags-select-find-tag-at-point on M-.
 (global-set-key "\M-." 'etags-select-find-tag-at-point)
+
+(provide 'ctags-pack)
 ;;; ctags-pack.el ends here
