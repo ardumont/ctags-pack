@@ -12,11 +12,11 @@
 (require 'ctags)
 (require 'etags-select)
 
-;; Permit the override of the ctags binary
-(setq *CTAGS-BINARY* "ctags-exuberant")
+(defvar *CTAGS-BINARY* "ctags-exuberant"
+  "Ctags binary to use for ctags generation.")
 
-;; Permit the override of the prefix log message to explicit who triggers the TAGS
-(setq *CTAGS-LOG-PREFIX* "ctags-pack - ")
+(defvar *CTAGS-LOG-PREFIX* "ctags-pack - "
+  "Prefix log message to explicit what triggers the TAGS.")
 
 ;; When a new file is found in a git repo, set the project tags filename.
 (add-hook 'find-file-hook 'set-project-tags-file-name)
