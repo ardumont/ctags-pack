@@ -18,6 +18,10 @@
 (defvar *CTAGS-LOG-PREFIX* "ctags-pack - "
   "Prefix log message to explicit what triggers the TAGS.")
 
+(defun ctags-pack/msg (log)
+  "Log LOG message."
+  (message "%s%s" *CTAGS-LOG-PREFIX* log))
+
 (defun ctags-pack/set-project-tags-file-name ()
   "If the current directory is a git project (and not the home directory).
 Make .tags the default tag file location.
@@ -29,7 +33,7 @@ You probably want to add .tags to a .gitignore_global file."
     (when (and top-dir
                (not (string-equal top-dir home-dir)))
       (setq-local tags-table-list (list tags-file))
-      (message "Project tags file set to: %s" tags-file)
+      (ctags-pack/msg "Project tags file set to: %s" tags-file)
       (generate-project-tags-if-missing))))
 
 (defun ctags-pack/generate-project-tags (tags-file)
@@ -55,7 +59,7 @@ You probably want to add .tags to a .gitignore_global file."
     (let* ((tags-file (get-project-tags-file-name)))
       (when (and tags-file (not (file-exists-p tags-file)))
         (generate-project-tags tags-file)
-        (message "Generated new project tags in %s" tags-file)))))
+        (ctags-pack/msg "Generated new project tags in %s" tags-file)))))
 
 (defun ctags-pack/regenerate-project-tags ()
   "If `tags-file-name` is set, regenerate the tags file."
@@ -63,7 +67,7 @@ You probably want to add .tags to a .gitignore_global file."
   (let* ((tags-file-name (get-project-tags-file-name)))
     (when tags-file-name
       (generate-project-tags tags-file-name)
-      (message "%sRegenerated project tags in %s" *CTAGS-LOG-PREFIX* tags-file-name))))
+      (ctags-pack/msg "Regenerated project tags in %s" tags-file-name))))
 
 ;; When a new file is found in a git repo, set the project tags filename.
 (remove-hook 'find-file-hook 'ctags-pack/set-project-tags-file-name)
