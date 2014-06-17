@@ -43,7 +43,6 @@ You probably want to add .tags to a .gitignore_global file."
                   "-Re"
                   "--exclude=.git"
                   "--exclude='.#*'"
-                  "--langmap=Lisp:+.clj.cljs"
                   (format "-f %s" tags-file)
                   (magit-get-top-dir)))
 
