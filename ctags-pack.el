@@ -5,8 +5,8 @@
 ;;; Code:
 
 (require 'install-packages-pack)
-(install-packs '(magit
-                 etags-select))
+(install-packages-pack/install-packs '(magit
+                                       etags-select))
 
 (require 'etags)
 (require 'etags-select)
