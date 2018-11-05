@@ -4,10 +4,6 @@
 
 ;;; Code:
 
-(require 'install-packages-pack)
-(install-packages-pack/install-packs '(magit
-                                       etags-select))
-
 (require 'etags)
 (require 'etags-select)
 (require 'magit)
