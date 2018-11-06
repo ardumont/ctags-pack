@@ -40,7 +40,7 @@ You probably want to add .tags to a .gitignore_global file."
                 "--exclude=.git"
                 "--exclude='.#*'"
                 (format "-f %s" tags-file)
-                (magit-top-level)))
+                (magit-toplevel)))
 
 (defun ctags-pack/get-project-tags-file-name ()
   "Get file name to put project tags in."
