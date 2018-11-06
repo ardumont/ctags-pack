@@ -23,7 +23,7 @@
 Make .tags the default tag file location.
 You probably want to add .tags to a .gitignore_global file."
   (interactive)
-  (let* ((top-dir   (magit-get-top-dir))
+  (let* ((top-dir   (magit-toplevel))
          (home-dir  (expand-file-name "~/"))
          (tags-file (format "%sTAGS" top-dir)))
     (when (and top-dir
@@ -36,11 +36,11 @@ You probably want to add .tags to a .gitignore_global file."
   "Generate tags for current project in `TAGS-FILE`."
   (interactive)
   (call-process *CTAGS-BINARY* nil nil nil
-                  "-Re"
-                  "--exclude=.git"
-                  "--exclude='.#*'"
-                  (format "-f %s" tags-file)
-                  (magit-get-top-dir)))
+                "-Re"
+                "--exclude=.git"
+                "--exclude='.#*'"
+                (format "-f %s" tags-file)
+                (magit-top-level)))
 
 (defun ctags-pack/get-project-tags-file-name ()
   "Get file name to put project tags in."
